@@ -26,18 +26,21 @@ namespace CityLibrary.MVC.Migrations
             //      new Person { FullName = "Rowan Miller" }
             //    );
             //
-            context.Authors.AddOrUpdate(
-                
-                new Models.Author {
-                    AuthorName = "Cris",
-                    Id = 1
-                },
-                new Models.Author{
-                    AuthorName = "Eusebiu",
-                    Id = 2
-                }
 
-                );
+            context.Authors.AddOrUpdate(
+
+    new Models.Author
+    {
+        AuthorName = "Cris",
+        Id = 1
+    },
+    new Models.Author
+    {
+        AuthorName = "Eusebiu",
+        Id = 2
+    }
+
+    );
             context.Books.AddOrUpdate(
 
                 new Models.Book
@@ -45,21 +48,24 @@ namespace CityLibrary.MVC.Migrations
                     Id = 1,
                     Name = "Moby Dick",
                     AuthorId = 1,
-                    GenreId = 1
+                    GenreId = 1,
+                    Description = "In the heart of the sea."
                 },
                 new Models.Book
                 {
                     Id = 2,
                     Name = "Unknown`s Story",
                     AuthorId = 1,
-                    GenreId = 1
+                    GenreId = 1,
+                    Description = "A long time ago there was a boy."
                 },
                 new Models.Book
                 {
                     Id = 3,
                     Name = "Roses for Mom",
                     AuthorId = 1,
-                    GenreId = 1
+                    GenreId = 1,
+                    Description = "They were a bright red."
                 }
 
                 );
@@ -76,7 +82,6 @@ namespace CityLibrary.MVC.Migrations
                     Type = "Horror"
                 }
                 );
-
         }
     }
 }

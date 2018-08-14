@@ -8,7 +8,7 @@ namespace CityLibrary.MVC.Migrations
     {
         string IMigrationMetadata.Id
         {
-            get { return "201808131742384_InitialMigration"; }
+            get { return "201808141128134_InitialMigration"; }
         }
         
         string IMigrationMetadata.Source

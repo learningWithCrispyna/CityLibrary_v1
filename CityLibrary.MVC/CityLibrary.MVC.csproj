@@ -151,9 +151,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201808131742384_InitialMigration.cs" />
-    <Compile Include="Migrations\201808131742384_InitialMigration.Designer.cs">
-      <DependentUpon>201808131742384_InitialMigration.cs</DependentUpon>
+    <Compile Include="Migrations\201808141128134_InitialMigration.cs" />
+    <Compile Include="Migrations\201808141128134_InitialMigration.Designer.cs">
+      <DependentUpon>201808141128134_InitialMigration.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Author.cs" />
