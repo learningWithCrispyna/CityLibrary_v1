@@ -18,6 +18,25 @@ namespace CityLibrary.MVC
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
             );
+
+            routes.MapRoute(
+                name: "Author",
+                url: "{controller}/{action}/{id}",
+                defaults: new { controller = "Author", action = "Index", id = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
+                name: "Book",
+                url: "{controller}/{action}/{id}",
+                defaults: new { controller = "Book", action = "Index", id = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
+                name: "Genre",
+                url: "{controller}/{action}/{id}",
+                defaults: new { controller = "Genre", action = "Index", id = UrlParameter.Optional }
+            );
+
         }
     }
 }
