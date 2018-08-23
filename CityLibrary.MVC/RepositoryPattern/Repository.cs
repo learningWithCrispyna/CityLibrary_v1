@@ -1,4 +1,5 @@
 ﻿using CityLibrary.MVC.DbContext;
+using CityLibrary.MVC.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -7,35 +8,48 @@ using System.Web;
 
 namespace CityLibrary.MVC.RepositoryPattern
 {
-    public class Repository<T> : IRepository<T> where T : class
+    public class Repository<T> : IRepository<T> where T : Entity
     {
-        private readonly CityLibraryDbContext _context;
+        protected DbSet<T> _dbSet;
+        private CityLibraryDbContext _dbContext;
 
-        public Repository(CityLibraryDbContext context)
+        public Repository(CityLibraryDbContext dbContext)
         {
-            _context = context;
+            _dbSet = dbContext.Set<T>();
+            _dbContext = dbContext;
         }
 
         public void Create(T entity)
         {
-            _context.Set<T>().Add(entity);
+            _dbSet.Add(entity);
         }
 
         public void Delete(T entity)
         {
-            _context.Set<T>().Remove(entity);
+            _dbSet.Remove(entity);
         }
 
+        
         public IQueryable<T> GetAll()
         {
-            return _context.Set<T>();
+            return _dbSet;
+        }
+
+        public IQueryable<T> GetEntity(int id)
+        {
+            return _dbSet.Where(x => x.Id == id);
         }
 
         public void Update(T entity)
         {
-            _context.Set<T>().Attach(entity);
-            var entry = _context.Entry(entity);
+            _dbSet.Attach(entity);
+            var entry = _dbContext.Entry(entity);
             entry.State = EntityState.Modified;
         }
+
+        public void Dispose()
+        {
+        }
+
     }
 }

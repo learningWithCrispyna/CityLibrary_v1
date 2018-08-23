@@ -1,8 +1,7 @@
 ﻿namespace CityLibrary.MVC.Models
 {
-    public class Book
+    public class Book: Entity
     {
-        public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
 
