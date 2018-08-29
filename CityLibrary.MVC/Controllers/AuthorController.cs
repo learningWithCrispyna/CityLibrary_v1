@@ -24,7 +24,7 @@ namespace CityLibrary.MVC.Controllers
         // GET: Authors
         public ActionResult Index()
         {
-            var model = _authorRepository.GetAll();
+            var model = _authorRepository.GetAll().ToList();
             return View(model);
         }
 

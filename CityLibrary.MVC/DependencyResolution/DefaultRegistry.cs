@@ -17,7 +17,6 @@
 
 namespace CityLibrary.MVC.DependencyResolution {
     using CityLibrary.MVC.DbContext;
-    using CityLibrary.MVC.Models;
     using CityLibrary.MVC.RepositoryPattern;
     using StructureMap.Configuration.DSL;
     using StructureMap.Graph;
