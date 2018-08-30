@@ -8,17 +8,25 @@ using System.Web;
 using System.Web.Mvc;
 using CityLibrary.MVC.DbContext;
 using CityLibrary.MVC.Models;
+using CityLibrary.MVC.RepositoryPattern;
 
 namespace CityLibrary.MVC.Controllers
 {
     public class GenreController : Controller
     {
-        private CityLibraryDbContext db = new CityLibraryDbContext();
+        private readonly IGenreRepository _genreRepository;
+        private readonly CityLibraryDbContext _context;
+
+        public GenreController(IGenreRepository genreRepository, CityLibraryDbContext context)
+        {
+            _genreRepository = genreRepository;
+            _context = context;
+        }
 
         // GET: Genre
         public ActionResult Index()
         {
-            return View(db.Genres.ToList());
+            return View(_genreRepository.GetAll().ToList());
         }
 
         // GET: Genre/Details/5
@@ -28,7 +36,7 @@ namespace CityLibrary.MVC.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Genre genre = db.Genres.Find(id);
+            Genre genre = _genreRepository.GetEntity(id.Value).FirstOrDefault();
             if (genre == null)
             {
                 return HttpNotFound();
@@ -51,8 +59,8 @@ namespace CityLibrary.MVC.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Genres.Add(genre);
-                db.SaveChanges();
+                _genreRepository.Create(genre);
+                _context.SaveChanges();
                 return RedirectToAction("Index");
             }
 
@@ -66,7 +74,7 @@ namespace CityLibrary.MVC.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Genre genre = db.Genres.Find(id);
+            Genre genre = _genreRepository.GetEntity(id.Value).FirstOrDefault();
             if (genre == null)
             {
                 return HttpNotFound();
@@ -83,8 +91,8 @@ namespace CityLibrary.MVC.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(genre).State = EntityState.Modified;
-                db.SaveChanges();
+                _context.Entry(genre).State = EntityState.Modified;
+                _context.SaveChanges();
                 return RedirectToAction("Index");
             }
             return View(genre);
@@ -97,7 +105,7 @@ namespace CityLibrary.MVC.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Genre genre = db.Genres.Find(id);
+            Genre genre = _genreRepository.GetEntity(id.Value).FirstOrDefault();
             if (genre == null)
             {
                 return HttpNotFound();
@@ -110,9 +118,9 @@ namespace CityLibrary.MVC.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Genre genre = db.Genres.Find(id);
-            db.Genres.Remove(genre);
-            db.SaveChanges();
+            Genre genre = _genreRepository.GetEntity(id).FirstOrDefault();
+            _genreRepository.Delete(genre);
+            _context.SaveChanges();
             return RedirectToAction("Index");
         }
 
@@ -120,7 +128,7 @@ namespace CityLibrary.MVC.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                _context.Dispose();
             }
             base.Dispose(disposing);
         }

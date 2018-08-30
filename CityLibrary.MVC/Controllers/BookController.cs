@@ -10,8 +10,6 @@ namespace CityLibrary.MVC.Controllers
 {
     public class BookController : Controller
     {
-        private CityLibraryDbContext db = new CityLibraryDbContext();
-
         private readonly IBookRepository _bookRepository;
         private readonly CityLibraryDbContext _context;
 
@@ -135,7 +133,7 @@ namespace CityLibrary.MVC.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                _context.Dispose();
             }
             base.Dispose(disposing);
         }
