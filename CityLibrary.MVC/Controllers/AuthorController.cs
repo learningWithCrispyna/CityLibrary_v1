@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using CityLibrary.MVC.DbContext;
 using CityLibrary.MVC.Models;
@@ -15,10 +11,12 @@ namespace CityLibrary.MVC.Controllers
     public class AuthorController : Controller
     {
         private readonly IAuthorRepository _authorRepository;
+        private readonly CityLibraryDbContext _context;
 
-        public AuthorController(IAuthorRepository authorRepository)
+        public AuthorController(IAuthorRepository authorRepository, CityLibraryDbContext context)
         {
             _authorRepository = authorRepository;
+            _context = context;
         }
 
         // GET: Authors
@@ -28,100 +26,100 @@ namespace CityLibrary.MVC.Controllers
             return View(model);
         }
 
-        //// GET: Authors/Details/5
-        //public ActionResult Details(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //    }
-        //    Author author = AuthorRepository..Find(id);
-        //    if (author == null)
-        //    {
-        //        return HttpNotFound();
-        //    }
-        //    return View(author);
-        //}
+        // GET: Authors/Details/5
+        public ActionResult Details(int id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Author author = _authorRepository.GetEntity(id).FirstOrDefault();
+            if (author == null)
+            {
+                return HttpNotFound();
+            }
+            return View(author);
+        }
 
-        //// GET: Authors/Create
-        //public ActionResult Create()
-        //{
-        //    return View();
-        //}
+        // GET: Authors/Create 
+        public ActionResult Create()
+        {
+            return View();
+        }
 
-        //// POST: Authors/Create
-        //// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        //// more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Create([Bind(Include = "Id,AuthorName")] Author author)
-        //{
-        //    //if (ModelState.IsValid)
-        //    //{
-        //    //    db.Authors.Add(author);
-        //    //    db.SaveChanges();
-        //    //    return RedirectToAction("Index");
-        //    //}
+        // POST: Authors/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create([Bind(Include = "Id,AuthorName")] Author author)
+        {
+            if (ModelState.IsValid)
+            {
+                _authorRepository.Create(author);
+                _context.SaveChanges();
+                return RedirectToAction("Index");
+            }
 
-        //    return View(author);
-        //}
+            return View(author);
+        }
 
-        //// GET: Authors/Edit/5
-        //public ActionResult Edit(int? id)
-        //{
-        //    //if (id == null)
-        //    //{
-        //    //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //    //}
-        //    //Author author = db.Authors.Find(id);
-        //    //if (author == null)
-        //    //{
-        //    //    return HttpNotFound();
-        //    //}
-        //    //return View(author);
-        //}
+        // GET: Authors/Edit/5
+        public ActionResult Edit(int id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Author author = _authorRepository.GetEntity(id).FirstOrDefault();
+            if (author == null)
+            {
+                return HttpNotFound();
+            }
+            return View(author);
+        }
 
-        //// POST: Authors/Edit/5
-        //// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        //// more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Edit([Bind(Include = "Id,AuthorName")] Author author)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        db.Entry(author).State = EntityState.Modified;
-        //        db.SaveChanges();
-        //        return RedirectToAction("Index");
-        //    }
-        //    return View(author);
-        //}
+        //POST: Authors/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit([Bind(Include = "Id,AuthorName")] Author author)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Entry(author).State = EntityState.Modified;
+                _context.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return View(author);
+        }
 
-        //// GET: Authors/Delete/5
-        //public ActionResult Delete(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //    }
-        //    Author author = db.Authors.Find(id);
-        //    if (author == null)
-        //    {
-        //        return HttpNotFound();
-        //    }
-        //    return View(author);
-        //}
+        // GET: Authors/Delete/5
+        public ActionResult Delete(int id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Author author = _authorRepository.GetEntity(id).FirstOrDefault();
+            if (author == null)
+            {
+                return HttpNotFound();
+            }
+            return View(author);
+        }
 
-        //// POST: Authors/Delete/5
-        //[HttpPost, ActionName("Delete")]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult DeleteConfirmed(int id)
-        //{
-        //    Author author = db.Authors.Find(id);
-        //    db.Authors.Remove(author);
-        //    db.SaveChanges();
-        //    return RedirectToAction("Index");
-        //}
+        // POST: Authors/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(int id)
+        {
+            Author author = _authorRepository.GetEntity(id).FirstOrDefault();
+            _authorRepository.Delete(author);
+            _context.SaveChanges();
+            return RedirectToAction("Index");
+        }
 
     }
 }

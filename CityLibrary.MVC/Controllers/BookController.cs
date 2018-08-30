@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using CityLibrary.MVC.DbContext;
 using CityLibrary.MVC.Models;
+using CityLibrary.MVC.RepositoryPattern;
 
 namespace CityLibrary.MVC.Controllers
 {
@@ -15,11 +12,20 @@ namespace CityLibrary.MVC.Controllers
     {
         private CityLibraryDbContext db = new CityLibraryDbContext();
 
+        private readonly IBookRepository _bookRepository;
+        private readonly CityLibraryDbContext _context;
+
+        public BookController(IBookRepository bookRepository,CityLibraryDbContext context)
+        {
+            _bookRepository = bookRepository;
+            _context = context;
+        }
+
         // GET: Book
         public ActionResult Index()
         {
-            var books = db.Books.Include(b => b.Author).Include(b => b.Genre);
-            return View(books.ToList());
+            var model = _context.Books.Include(a=>a.Author).Include(b=>b.Genre).ToList();
+            return View(model);
         }
 
         // GET: Book/Details/5
@@ -29,7 +35,7 @@ namespace CityLibrary.MVC.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Book book = db.Books.Find(id);
+            Book book = _bookRepository.GetEntity(id.Value).FirstOrDefault();
             if (book == null)
             {
                 return HttpNotFound();
@@ -40,8 +46,8 @@ namespace CityLibrary.MVC.Controllers
         // GET: Book/Create
         public ActionResult Create()
         {
-            ViewBag.AuthorId = new SelectList(db.Authors, "Id", "AuthorName");
-            ViewBag.GenreId = new SelectList(db.Genres, "Id", "Type");
+            ViewBag.AuthorId = new SelectList(_context.Authors, "Id", "AuthorName");
+            ViewBag.GenreId = new SelectList(_context.Genres, "Id", "Type");
             return View();
         }
 
@@ -54,13 +60,13 @@ namespace CityLibrary.MVC.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Books.Add(book);
-                db.SaveChanges();
+                _bookRepository.Create(book);
+                _context.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.AuthorId = new SelectList(db.Authors, "Id", "AuthorName", book.AuthorId);
-            ViewBag.GenreId = new SelectList(db.Genres, "Id", "Type", book.GenreId);
+            ViewBag.AuthorId = new SelectList(_context.Authors, "Id", "AuthorName", book.AuthorId);
+            ViewBag.GenreId = new SelectList(_context.Genres, "Id", "Type", book.GenreId);
             return View(book);
         }
 
@@ -71,13 +77,13 @@ namespace CityLibrary.MVC.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Book book = db.Books.Find(id);
+            Book book = _bookRepository.GetEntity(id.Value).FirstOrDefault();
             if (book == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.AuthorId = new SelectList(db.Authors, "Id", "AuthorName", book.AuthorId);
-            ViewBag.GenreId = new SelectList(db.Genres, "Id", "Type", book.GenreId);
+            ViewBag.AuthorId = new SelectList(_context.Authors, "Id", "AuthorName", book.AuthorId);
+            ViewBag.GenreId = new SelectList(_context.Genres, "Id", "Type", book.GenreId);
             return View(book);
         }
 
@@ -90,12 +96,12 @@ namespace CityLibrary.MVC.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(book).State = EntityState.Modified;
-                db.SaveChanges();
+                _context.Entry(book).State = EntityState.Modified;
+                _context.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.AuthorId = new SelectList(db.Authors, "Id", "AuthorName", book.AuthorId);
-            ViewBag.GenreId = new SelectList(db.Genres, "Id", "Type", book.GenreId);
+            ViewBag.AuthorId = new SelectList(_context.Authors, "Id", "AuthorName", book.AuthorId);
+            ViewBag.GenreId = new SelectList(_context.Genres, "Id", "Type", book.GenreId);
             return View(book);
         }
 
@@ -106,7 +112,7 @@ namespace CityLibrary.MVC.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Book book = db.Books.Find(id);
+            Book book = _bookRepository.GetEntity(id.Value).FirstOrDefault();
             if (book == null)
             {
                 return HttpNotFound();
@@ -119,9 +125,9 @@ namespace CityLibrary.MVC.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Book book = db.Books.Find(id);
-            db.Books.Remove(book);
-            db.SaveChanges();
+            Book book = _bookRepository.GetEntity(id).FirstOrDefault();
+            _bookRepository.Delete(book);
+            _context.SaveChanges();
             return RedirectToAction("Index");
         }
 

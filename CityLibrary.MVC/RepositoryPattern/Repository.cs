@@ -1,10 +1,8 @@
 ﻿using CityLibrary.MVC.DbContext;
 using CityLibrary.MVC.Models;
-using System;
-using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Migrations;
 using System.Linq;
-using System.Web;
 
 namespace CityLibrary.MVC.RepositoryPattern
 {
@@ -43,8 +41,8 @@ namespace CityLibrary.MVC.RepositoryPattern
         public void Update(T entity)
         {
             _dbSet.Attach(entity);
-            var entry = _dbContext.Entry(entity);
-            entry.State = EntityState.Modified;
+            _dbContext.Entry(entity).State = EntityState.Modified;
+            _dbContext.SaveChanges();
         }
 
         public void Dispose()

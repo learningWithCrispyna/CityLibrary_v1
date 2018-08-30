@@ -32,6 +32,7 @@ namespace CityLibrary.MVC.DependencyResolution {
 					scan.With(new ControllerConvention());
                 });
             For<IAuthorRepository>().Use<AuthorRepository>();
+            For<IBookRepository>().Use<BookRepository>();
             For<CityLibraryDbContext>().Use<CityLibraryDbContext>();
         }
 
