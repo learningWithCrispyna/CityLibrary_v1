@@ -2,6 +2,8 @@
 using CityLibrary.MVC.Models;
 using System.Collections.Generic;
 using System.Linq;
+using System.Data.Entity;
+using System.Web.Mvc;
 
 namespace CityLibrary.MVC.RepositoryPattern
 {
@@ -12,9 +14,20 @@ namespace CityLibrary.MVC.RepositoryPattern
 
         }
 
-        public IList<Book> GetFullNamesOfBooks()
+        public IList<Book> GetAllDetails()
         {
-            return _dbSet.Where(x => !string.IsNullOrEmpty(x.Name)).ToList();
+            var result = _dbContext.Books.Include(a => a.Author).Include(b => b.Genre).ToList();
+            return result;
+        }
+
+        public SelectList GetAuthorNameAndId()
+        {
+            return new SelectList(_dbContext.Authors, "Id", "AuthorName"); ;
+        }
+
+        public SelectList GetGenreIdAndType()
+        {
+            return new SelectList(_dbContext.Genres, "Id", "Type");
         }
     }
 }

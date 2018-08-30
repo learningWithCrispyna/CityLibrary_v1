@@ -8,8 +8,8 @@ namespace CityLibrary.MVC.RepositoryPattern
 {
     public class Repository<T> : IRepository<T> where T : Entity
     {
-        protected DbSet<T> _dbSet;
-        private CityLibraryDbContext _dbContext;
+        private DbSet<T> _dbSet;
+        protected CityLibraryDbContext _dbContext;
 
         public Repository(CityLibraryDbContext dbContext)
         {
@@ -20,11 +20,13 @@ namespace CityLibrary.MVC.RepositoryPattern
         public void Create(T entity)
         {
             _dbSet.Add(entity);
+            _dbContext.SaveChanges();
         }
 
         public void Delete(T entity)
         {
             _dbSet.Remove(entity);
+            _dbContext.SaveChanges();
         }
 
         

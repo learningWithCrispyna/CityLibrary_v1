@@ -11,12 +11,11 @@ namespace CityLibrary.MVC.Controllers
     public class AuthorController : Controller
     {
         private readonly IAuthorRepository _authorRepository;
-        private readonly CityLibraryDbContext _context;
+       
 
-        public AuthorController(IAuthorRepository authorRepository, CityLibraryDbContext context)
+        public AuthorController(IAuthorRepository authorRepository)
         {
             _authorRepository = authorRepository;
-            _context = context;
         }
 
         // GET: Authors
@@ -27,13 +26,13 @@ namespace CityLibrary.MVC.Controllers
         }
 
         // GET: Authors/Details/5
-        public ActionResult Details(int id)
+        public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Author author = _authorRepository.GetEntity(id).FirstOrDefault();
+            Author author = _authorRepository.GetEntity(id.Value).FirstOrDefault();
             if (author == null)
             {
                 return HttpNotFound();
@@ -57,7 +56,6 @@ namespace CityLibrary.MVC.Controllers
             if (ModelState.IsValid)
             {
                 _authorRepository.Create(author);
-                _context.SaveChanges();
                 return RedirectToAction("Index");
             }
 
@@ -65,13 +63,13 @@ namespace CityLibrary.MVC.Controllers
         }
 
         // GET: Authors/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Author author = _authorRepository.GetEntity(id).FirstOrDefault();
+            Author author = _authorRepository.GetEntity(id.Value).FirstOrDefault();
             if (author == null)
             {
                 return HttpNotFound();
@@ -88,21 +86,20 @@ namespace CityLibrary.MVC.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Entry(author).State = EntityState.Modified;
-                _context.SaveChanges();
+                _authorRepository.Update(author);
                 return RedirectToAction("Index");
             }
             return View(author);
         }
 
         // GET: Authors/Delete/5
-        public ActionResult Delete(int id)
+        public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Author author = _authorRepository.GetEntity(id).FirstOrDefault();
+            Author author = _authorRepository.GetEntity(id.Value).FirstOrDefault();
             if (author == null)
             {
                 return HttpNotFound();
@@ -117,7 +114,6 @@ namespace CityLibrary.MVC.Controllers
         {
             Author author = _authorRepository.GetEntity(id).FirstOrDefault();
             _authorRepository.Delete(author);
-            _context.SaveChanges();
             return RedirectToAction("Index");
         }
 

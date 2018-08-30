@@ -12,17 +12,16 @@ namespace CityLibrary.MVC.Controllers
     {
         private readonly IBookRepository _bookRepository;
         private readonly CityLibraryDbContext _context;
-
-        public BookController(IBookRepository bookRepository,CityLibraryDbContext context)
+         
+        public BookController(IBookRepository bookRepository, CityLibraryDbContext context)
         {
             _bookRepository = bookRepository;
-            _context = context;
         }
 
         // GET: Book
         public ActionResult Index()
         {
-            var model = _context.Books.Include(a=>a.Author).Include(b=>b.Genre).ToList();
+            var model = _bookRepository.GetAllDetails();
             return View(model);
         }
 
@@ -44,8 +43,8 @@ namespace CityLibrary.MVC.Controllers
         // GET: Book/Create
         public ActionResult Create()
         {
-            ViewBag.AuthorId = new SelectList(_context.Authors, "Id", "AuthorName");
-            ViewBag.GenreId = new SelectList(_context.Genres, "Id", "Type");
+            ViewBag.AuthorId = _bookRepository.GetAuthorNameAndId();
+            ViewBag.GenreId = _bookRepository.GetGenreIdAndType();
             return View();
         }
 
@@ -59,7 +58,6 @@ namespace CityLibrary.MVC.Controllers
             if (ModelState.IsValid)
             {
                 _bookRepository.Create(book);
-                _context.SaveChanges();
                 return RedirectToAction("Index");
             }
 
@@ -95,7 +93,6 @@ namespace CityLibrary.MVC.Controllers
             if (ModelState.IsValid)
             {
                 _context.Entry(book).State = EntityState.Modified;
-                _context.SaveChanges();
                 return RedirectToAction("Index");
             }
             ViewBag.AuthorId = new SelectList(_context.Authors, "Id", "AuthorName", book.AuthorId);
@@ -125,17 +122,8 @@ namespace CityLibrary.MVC.Controllers
         {
             Book book = _bookRepository.GetEntity(id).FirstOrDefault();
             _bookRepository.Delete(book);
-            _context.SaveChanges();
             return RedirectToAction("Index");
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                _context.Dispose();
-            }
-            base.Dispose(disposing);
-        }
     }
 }

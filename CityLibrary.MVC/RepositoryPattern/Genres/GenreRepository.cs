@@ -16,7 +16,7 @@ namespace CityLibrary.MVC.RepositoryPattern
 
         public IList<Genre> GetFullNameForGen()
         {
-            return _dbSet.Where(x => !string.IsNullOrEmpty(x.Type)).ToList();
+            return _dbContext.Genres.Where(x => !string.IsNullOrEmpty(x.Type)).ToList();
         }
     }
 }

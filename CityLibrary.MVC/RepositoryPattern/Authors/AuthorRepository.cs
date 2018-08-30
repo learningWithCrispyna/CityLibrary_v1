@@ -15,7 +15,7 @@ namespace CityLibrary.MVC.RepositoryPattern
 
         public IList<Author> GetWhereNamesAreFull()
         {
-            return _dbSet.Where(x => !string.IsNullOrEmpty(x.AuthorName)).ToList();
+            return _dbContext.Authors.Where(x => !string.IsNullOrEmpty(x.AuthorName)).ToList();
         }
     }
 }
