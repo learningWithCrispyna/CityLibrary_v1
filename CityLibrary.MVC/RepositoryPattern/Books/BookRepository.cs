@@ -25,9 +25,25 @@ namespace CityLibrary.MVC.RepositoryPattern
             return new SelectList(_dbContext.Authors, "Id", "AuthorName"); ;
         }
 
+        public SelectList GetAuthorNameAndId(int authorId)
+        {
+            return new SelectList(_dbContext.Authors, "Id", "AuthorName", authorId); ;
+        }
+
         public SelectList GetGenreIdAndType()
         {
             return new SelectList(_dbContext.Genres, "Id", "Type");
         }
+
+        public SelectList GetGenreIdAndType(int genreId)
+        {
+            return new SelectList(_dbContext.Genres, "Id", "Type", genreId);
+        }
+
+        //Dictionary<int, string> IBookRepository.GetAuthorNameAndId()
+        //{
+        //    //var result = _dbContext.Books.Include(x => x.AuthorId).Include(x => x.Author);
+        //    Dictionary<int, string> result = new Dictionary<int, string>() {_dbContext };
+        //}
     }
 }
