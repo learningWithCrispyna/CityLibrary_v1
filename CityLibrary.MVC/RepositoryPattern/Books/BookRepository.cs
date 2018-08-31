@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Data.Entity;
 using System.Web.Mvc;
+using System;
 
 namespace CityLibrary.MVC.RepositoryPattern
 {
@@ -20,30 +21,14 @@ namespace CityLibrary.MVC.RepositoryPattern
             return result;
         }
 
-        public SelectList GetAuthorNameAndId()
+        public Dictionary<int, string> GetBookAuthors()
         {
-            return new SelectList(_dbContext.Authors, "Id", "AuthorName"); ;
+            return _dbContext.Authors.ToDictionary(x => x.Id, x => x.AuthorName);
         }
 
-        public SelectList GetAuthorNameAndId(int authorId)
+        public Dictionary<int, string> GetBookGenres()
         {
-            return new SelectList(_dbContext.Authors, "Id", "AuthorName", authorId); ;
+            return _dbContext.Genres.ToDictionary(x => x.Id, x => x.Type);
         }
-
-        public SelectList GetGenreIdAndType()
-        {
-            return new SelectList(_dbContext.Genres, "Id", "Type");
-        }
-
-        public SelectList GetGenreIdAndType(int genreId)
-        {
-            return new SelectList(_dbContext.Genres, "Id", "Type", genreId);
-        }
-
-        //Dictionary<int, string> IBookRepository.GetAuthorNameAndId()
-        //{
-        //    //var result = _dbContext.Books.Include(x => x.AuthorId).Include(x => x.Author);
-        //    Dictionary<int, string> result = new Dictionary<int, string>() {_dbContext };
-        //}
     }
 }
