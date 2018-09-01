@@ -34,6 +34,7 @@ namespace CityLibrary.MVC.DependencyResolution {
             For<IAuthorRepository>().Use<AuthorRepository>();
             For<IBookRepository>().Use<BookRepository>();
             For<CityLibraryDbContext>().Use<CityLibraryDbContext>();
+            For<IUserRepository>().Use<UserRepository>();
         }
 
         #endregion

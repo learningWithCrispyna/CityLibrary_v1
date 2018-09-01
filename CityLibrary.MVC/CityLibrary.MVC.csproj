@@ -186,6 +186,7 @@
     <Compile Include="Controllers\BookController.cs" />
     <Compile Include="Controllers\GenreController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\HomelessController.cs" />
     <Compile Include="DbContext\CityLibraryDbContext.cs" />
     <Compile Include="DependencyResolution\ControllerConvention.cs" />
     <Compile Include="DependencyResolution\DefaultRegistry.cs" />
@@ -199,11 +200,16 @@
     <Compile Include="Migrations\201808291937298_InitialMigration.Designer.cs">
       <DependentUpon>201808291937298_InitialMigration.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201809011810102_SecondThing.cs" />
+    <Compile Include="Migrations\201809011810102_SecondThing.Designer.cs">
+      <DependentUpon>201809011810102_SecondThing.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Author.cs" />
     <Compile Include="Models\Book.cs" />
     <Compile Include="Models\Entity.cs" />
     <Compile Include="Models\Genre.cs" />
+    <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RepositoryPattern\Authors\AuthorRepository.cs" />
     <Compile Include="RepositoryPattern\Books\BookRepository.cs" />
@@ -211,8 +217,10 @@
     <Compile Include="RepositoryPattern\Books\IBookRepository.cs" />
     <Compile Include="RepositoryPattern\Genres\GenreRepository.cs" />
     <Compile Include="RepositoryPattern\Genres\IGenreRepository.cs" />
+    <Compile Include="RepositoryPattern\IUserRepository.cs" />
     <Compile Include="RepositoryPattern\Repo\IRepository.cs" />
     <Compile Include="RepositoryPattern\Repo\Repository.cs" />
+    <Compile Include="RepositoryPattern\UserRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
@@ -266,6 +274,12 @@
     <Content Include="Views\Genre\Details.cshtml" />
     <Content Include="Views\Genre\Edit.cshtml" />
     <Content Include="Views\Genre\Index.cshtml" />
+    <Content Include="Views\Users\Create.cshtml" />
+    <Content Include="Views\Homeless\Create.cshtml" />
+    <Content Include="Views\Homeless\Delete.cshtml" />
+    <Content Include="Views\Homeless\Details.cshtml" />
+    <Content Include="Views\Homeless\Edit.cshtml" />
+    <Content Include="Views\Homeless\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -289,6 +303,9 @@
     <EmbeddedResource Include="Migrations\201808291937298_InitialMigration.resx">
       <DependentUpon>201808291937298_InitialMigration.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201809011810102_SecondThing.resx">
+      <DependentUpon>201809011810102_SecondThing.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -304,7 +321,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>49263</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
