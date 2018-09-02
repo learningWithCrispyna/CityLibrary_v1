@@ -182,11 +182,12 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\StructuremapMvc.cs" />
+    <Compile Include="Attributes\CityLibraryAuthorize.cs" />
     <Compile Include="Controllers\AuthorController.cs" />
     <Compile Include="Controllers\BookController.cs" />
     <Compile Include="Controllers\GenreController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\HomelessController.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="DbContext\CityLibraryDbContext.cs" />
     <Compile Include="DependencyResolution\ControllerConvention.cs" />
     <Compile Include="DependencyResolution\DefaultRegistry.cs" />
@@ -209,6 +210,8 @@
     <Compile Include="Models\Book.cs" />
     <Compile Include="Models\Entity.cs" />
     <Compile Include="Models\Genre.cs" />
+    <Compile Include="Models\LoginViewModel.cs" />
+    <Compile Include="Models\RegisterViewModel.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RepositoryPattern\Authors\AuthorRepository.cs" />
@@ -221,6 +224,7 @@
     <Compile Include="RepositoryPattern\Repo\IRepository.cs" />
     <Compile Include="RepositoryPattern\Repo\Repository.cs" />
     <Compile Include="RepositoryPattern\UserRepository.cs" />
+    <Compile Include="Utils\PasswordEncyptor.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
@@ -280,6 +284,9 @@
     <Content Include="Views\Homeless\Details.cshtml" />
     <Content Include="Views\Homeless\Edit.cshtml" />
     <Content Include="Views\Homeless\Index.cshtml" />
+    <Content Include="Views\Homeless\Register.cshtml" />
+    <Content Include="Views\Account\Register.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

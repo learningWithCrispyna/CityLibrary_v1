@@ -5,13 +5,14 @@ using System.Web.Mvc;
 using CityLibrary.MVC.DbContext;
 using CityLibrary.MVC.Models;
 using CityLibrary.MVC.RepositoryPattern;
+using CityLibrary.MVC.Attributes;
 
 namespace CityLibrary.MVC.Controllers
 {
+    [CityLibraryAuthorize]
     public class AuthorController : Controller
     {
         private readonly IAuthorRepository _authorRepository;
-       
 
         public AuthorController(IAuthorRepository authorRepository)
         {
