@@ -17,5 +17,14 @@ namespace CityLibrary.MVC.RepositoryPattern
         {
             throw new NotImplementedException();
         }
+
+        public override void Create(User user)
+        {
+            var result = _dbContext.Users.Where(x => x.Name == user.Name).FirstOrDefault();
+            if (result == null)
+            {
+                base.Create(user);
+            }
+        }
     }
 }

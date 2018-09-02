@@ -17,7 +17,7 @@ namespace CityLibrary.MVC.RepositoryPattern
             _dbContext = dbContext;
         }
 
-        public void Create(T entity)
+        public virtual void Create(T entity)
         {
             _dbSet.Add(entity);
             _dbContext.SaveChanges();

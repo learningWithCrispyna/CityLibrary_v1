@@ -30,9 +30,10 @@ namespace CityLibrary.MVC.Controllers
             {
                 var encryptedPassword = PasswordEncryptor.Encrypt(model.Password);
                 var user = new User { Name = model.Name, Password = encryptedPassword };
+
                 _userRepository.Create(user);
             }
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Login", "Account");
         }
 
         // GET: /Account/Login
