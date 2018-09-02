@@ -58,7 +58,7 @@ namespace CityLibrary.MVC.Controllers
                 var decryptedPassword = PasswordEncryptor.Decrypt(user.Password);
                 if (model.Password == decryptedPassword)
                 {
-                    Session["LogedIn"] = true;
+                    Session["UserName"] = model.Name;
                     return RedirectToAction("Index", "Home");
                 }
 
@@ -71,7 +71,7 @@ namespace CityLibrary.MVC.Controllers
 
         public ActionResult Logout()
         {
-            Session["LogedIn"] = null;
+            Session["UserName"] = null;
             return RedirectToAction("Login", "Account");
         }
     }

@@ -1,8 +1,6 @@
-﻿using System.Data.Entity;
-using System.Linq;
+﻿using System.Linq;
 using System.Net;
 using System.Web.Mvc;
-using CityLibrary.MVC.DbContext;
 using CityLibrary.MVC.Models;
 using CityLibrary.MVC.RepositoryPattern;
 using CityLibrary.MVC.Attributes;

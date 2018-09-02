@@ -1,26 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
+﻿using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using CityLibrary.MVC.DbContext;
 using CityLibrary.MVC.Models;
 using CityLibrary.MVC.RepositoryPattern;
+using CityLibrary.MVC.Attributes;
 
 namespace CityLibrary.MVC.Controllers
 {
+    [CityLibraryAuthorize]
     public class GenreController : Controller
     {
         private readonly IGenreRepository _genreRepository;
-        private readonly CityLibraryDbContext _context;
 
-        public GenreController(IGenreRepository genreRepository, CityLibraryDbContext context)
+        public GenreController(IGenreRepository genreRepository)
         {
             _genreRepository = genreRepository;
-            _context = context;
         }
 
         // GET: Genre
@@ -60,7 +57,6 @@ namespace CityLibrary.MVC.Controllers
             if (ModelState.IsValid)
             {
                 _genreRepository.Create(genre);
-                _context.SaveChanges();
                 return RedirectToAction("Index");
             }
 
@@ -91,8 +87,7 @@ namespace CityLibrary.MVC.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Entry(genre).State = EntityState.Modified;
-                _context.SaveChanges();
+                _genreRepository.Update(genre);
                 return RedirectToAction("Index");
             }
             return View(genre);
@@ -120,17 +115,7 @@ namespace CityLibrary.MVC.Controllers
         {
             Genre genre = _genreRepository.GetEntity(id).FirstOrDefault();
             _genreRepository.Delete(genre);
-            _context.SaveChanges();
             return RedirectToAction("Index");
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                _context.Dispose();
-            }
-            base.Dispose(disposing);
         }
     }
 }

@@ -1,14 +1,13 @@
-﻿using System.Data.Entity;
-using System.Linq;
+﻿using System.Linq;
 using System.Net;
 using System.Web.Mvc;
-using CityLibrary.MVC.DbContext;
 using CityLibrary.MVC.Models;
 using CityLibrary.MVC.RepositoryPattern;
-using System.Collections.Generic;
+using CityLibrary.MVC.Attributes;
 
 namespace CityLibrary.MVC.Controllers
 {
+    [CityLibraryAuthorize]
     public class BookController : Controller
     {
         private readonly IBookRepository _bookRepository;

@@ -279,14 +279,9 @@
     <Content Include="Views\Genre\Edit.cshtml" />
     <Content Include="Views\Genre\Index.cshtml" />
     <Content Include="Views\Users\Create.cshtml" />
-    <Content Include="Views\Homeless\Create.cshtml" />
-    <Content Include="Views\Homeless\Delete.cshtml" />
-    <Content Include="Views\Homeless\Details.cshtml" />
-    <Content Include="Views\Homeless\Edit.cshtml" />
-    <Content Include="Views\Homeless\Index.cshtml" />
-    <Content Include="Views\Homeless\Register.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Shared\_LoginPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

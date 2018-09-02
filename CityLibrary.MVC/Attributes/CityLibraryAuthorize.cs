@@ -11,7 +11,7 @@ namespace CityLibrary.MVC.Attributes
     {
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            if (HttpContext.Current.Session["LogedIn"] == null)
+            if (HttpContext.Current.Session["UserName"] == null)
             {
                 filterContext.Result = new RedirectToRouteResult(new RouteValueDictionary
                 {
